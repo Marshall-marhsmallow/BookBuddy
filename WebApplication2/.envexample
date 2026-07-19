@@ -1,0 +1,5 @@
+DB_HOST=databaseURL/IP
+DB_PORT=databaseport
+DB_NAME=Nameofthedatabase
+DB_USER=userusedtologintodatabase
+DB_PASSWORD=databasepassword
