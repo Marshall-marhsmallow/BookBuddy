@@ -3,3 +3,6 @@ DB_PORT=databaseport
 DB_NAME=Nameofthedatabase
 DB_USER=userusedtologintodatabase
 DB_PASSWORD=databasepassword
+JWT_KEY=your-long-random-secret-at-least-32-bytes-here
+JWT_ISSUER=YourApp
+JWT_AUDIENCE=YourApp

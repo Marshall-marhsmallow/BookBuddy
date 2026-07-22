@@ -55,8 +55,44 @@ builder.Services.AddAuthorization();
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
-
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    try
+    {
+        if (!await dbContext.Database.CanConnectAsync())
+        {
+            logger.LogCritical("Cannot connect to the database. Application will not start.");
+            Environment.Exit(1);
+        }
+    }
+    catch (Exception ex)
+    {
+        logger.LogCritical(ex, "Database connection failed on startup. Application will not start.");
+        Environment.Exit(1);
+    }
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    try
+    {
+        await dbContext.Database.MigrateAsync(); // applies any pending migrations
+        logger.LogInformation("Database migrations applied successfully.");
+    }
+    catch (Exception ex)
+    {
+        logger.LogCritical(ex, "Failed to apply database migrations.");
+        Environment.Exit(1);
+    }
+}
+
 app.MapUserEndpoints();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,5 +1,6 @@
 using Users.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace UsersEndpoints // Adjusted namespace to match project structure.
 {
@@ -79,6 +80,7 @@ namespace UsersEndpoints // Adjusted namespace to match project structure.
                 var response = await service.UsernameExists(username);
                 return response ? Results.Ok() : Results.NotFound($"Username {username} does not exist.");
             }).RequireAuthorization();
+            
         }
     }
 }
