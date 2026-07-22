@@ -1,7 +1,7 @@
 using Users.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApplication2.Endpoints // Adjusted namespace to match project structure.
+namespace UsersEndpoints // Adjusted namespace to match project structure.
 {
     public static class UserEndpoints
     {
