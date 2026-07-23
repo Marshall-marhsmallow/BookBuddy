@@ -15,7 +15,7 @@ namespace UsersEndpoints // Adjusted namespace to match project structure.
         public static void MapUserEndpoints(this WebApplication app)
         {
             // Login: validate creds, issue JWT as httpOnly cookie
-            app.MapPost("/login", async (LoginRequest req, UserService service, TokenService tokenService, HttpContext http) =>
+            app.MapPost("/login", async (LoginRequest req, UserService service, TokenService tokenService) =>
             {
                 var user = await service.ValidateLogin(req.Username, req.Password);
                 if (user is null)
@@ -23,15 +23,7 @@ namespace UsersEndpoints // Adjusted namespace to match project structure.
 
                 var token = tokenService.CreateToken(user.Username);
 
-                http.Response.Cookies.Append("access_token", token, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTimeOffset.UtcNow.AddMinutes(30)
-                });
-
-                return Results.Ok(new { user.Username });
+                return Results.Ok(new { user.Username, token }); // ← must include token here
             });
 
             // Logout: clear the cookie
@@ -68,7 +60,7 @@ namespace UsersEndpoints // Adjusted namespace to match project structure.
             // Add user: stays open (registration), password now in body not query string
             app.MapPost("/add", async (AddUserRequest req, UserService service) =>
             {
-                var success = await service.AddUser(req.Username, req.Email, req.Password);
+                var success = await service.AddUser(req.Username, req.Password);
                 return success
                     ? Results.Ok($"User {req.Username} added successfully.")
                     : Results.Conflict("Username already exists");
@@ -80,7 +72,21 @@ namespace UsersEndpoints // Adjusted namespace to match project structure.
                 var response = await service.UsernameExists(username);
                 return response ? Results.Ok() : Results.NotFound($"Username {username} does not exist.");
             }).RequireAuthorization();
-            
+
+            // Return the currently logged-in user's own profile info
+            app.MapGet("/user-profile", async (ClaimsPrincipal caller, UserService service) =>
+            {
+                var username = caller.Identity?.Name;
+                if (username is null)
+                    return Results.Unauthorized();
+
+                var user = await service.GetUserByUsername(username);
+                if (user is null)
+                    return Results.NotFound();
+
+                // Return only safe fields — never the password hash
+                return Results.Ok(new { user.Username });
+            }).RequireAuthorization();
         }
     }
 }

@@ -55,6 +55,16 @@ builder.Services.AddAuthorization();
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
+builder.Services.AddCors(options =>
+{
+options.AddPolicy("AllowAngularApp", policy =>
+{
+    policy.WithOrigins("http://localhost:4200") // exact Angular dev server origin
+          .AllowAnyHeader()
+          .AllowAnyMethod()
+          .AllowCredentials(); // required since you're using cookies
+});
+});
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
@@ -92,7 +102,7 @@ using (var scope = app.Services.CreateScope())
         Environment.Exit(1);
     }
 }
-
+app.UseCors("AllowAngularApp");
 app.MapUserEndpoints();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -56,7 +56,7 @@ namespace Users.Services
         }
 
         // Method to add a new user
-        public async Task<bool> AddUser(string username, string email, string password)
+        public async Task<bool> AddUser(string username, string password)
         {
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
             if (existingUser != null) return false;
@@ -69,6 +69,11 @@ namespace Users.Services
             await _context.SaveChangesAsync();
 
             return true;
+        }
+        // Method to get a user's public info by username (excludes password hash)
+        public async Task<User?> GetUserByUsername(string username)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
     }
 }

@@ -1,45 +1,55 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap, map, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:7023';
-  private readonly usernameKey = 'username';
+  private apiUrl = 'http://localhost:5028';
+  private readonly tokenKey = 'token';
 
   constructor(private http: HttpClient) {}
 
+  private authHeaders(): HttpHeaders {
+    const token = localStorage.getItem(this.tokenKey);
+    return new HttpHeaders(token ? { Authorization: `Bearer ${token}` } : {});
+  }
+
   login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { username, password }, { withCredentials: true }).pipe(
+    return this.http.post(`${this.apiUrl}/login`, { username, password }).pipe(
       tap((res: any) => {
-        // Only the username is stored client-side — never the token itself.
-        localStorage.setItem(this.usernameKey, res.username);
+        localStorage.setItem(this.tokenKey, res.token);
       })
     );
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true }).pipe(
-      tap(() => localStorage.removeItem(this.usernameKey))
+    return this.http.post(`${this.apiUrl}/logout`, {}, { headers: this.authHeaders() }).pipe(
+      tap(() => localStorage.removeItem(this.tokenKey))
     );
   }
 
   checkAuth(): Observable<boolean> {
-    const username = localStorage.getItem(this.usernameKey);
-    if (!username) {
-      return of(false); // no known user, don't even bother calling the API
+    const token = localStorage.getItem(this.tokenKey);
+    if (!token) {
+      return of(false);
     }
 
-    return this.http.get(`${this.apiUrl}/exists/${username}`, { withCredentials: true }).pipe(
+    return this.http.get(`${this.apiUrl}/user-profile`, { headers: this.authHeaders() }).pipe(
       map(() => true),
-      catchError(() => of(false)) // 401 (or any error) → not logged in
+      catchError(() => of(false))
     );
   }
 
   getUserProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user-profile`, { withCredentials: true });
+      console.log('Calling /user-profile with headers:', this.authHeaders());
+    return this.http.get(`${this.apiUrl}/user-profile`, { headers: this.authHeaders() });
+  }
+
+  register(username: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add`, { username, password }).pipe(
+      catchError(error => of({ error }))
+    );
   }
 }
