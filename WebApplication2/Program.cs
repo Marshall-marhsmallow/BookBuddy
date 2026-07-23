@@ -59,10 +59,10 @@ builder.Services.AddCors(options =>
 {
 options.AddPolicy("AllowAngularApp", policy =>
 {
-    policy.WithOrigins("http://localhost:4200") // exact Angular dev server origin
+    policy.WithOrigins("http://localhost:4200")
           .AllowAnyHeader()
           .AllowAnyMethod()
-          .AllowCredentials(); // required since you're using cookies
+          .AllowCredentials();
 });
 });
 var app = builder.Build();
