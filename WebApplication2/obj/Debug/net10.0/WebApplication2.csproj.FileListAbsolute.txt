@@ -259,7 +259,6 @@ C:\Users\ntsli\Documents\BookBuddy\WebApplication2\obj\Debug\net10.0\staticwebas
 C:\Users\ntsli\Documents\BookBuddy\WebApplication2\obj\Debug\net10.0\staticwebassets.development.json
 C:\Users\ntsli\Documents\BookBuddy\WebApplication2\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 C:\Users\ntsli\Documents\BookBuddy\WebApplication2\obj\Debug\net10.0\swae.build.ex.cache
-C:\Users\ntsli\Documents\BookBuddy\WebApplication2\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Users\ntsli\Documents\BookBuddy\WebApplication2\obj\Debug\net10.0\WebAppli.0DB3FC1A.Up2Date
 C:\Users\ntsli\Documents\BookBuddy\WebApplication2\obj\Debug\net10.0\WebApplication2.genruntimeconfig.cache
 C:\Users\ntsli\Documents\BookBuddy\WebApplication2\obj\Debug\net10.0\ref\WebApplication2.dll
