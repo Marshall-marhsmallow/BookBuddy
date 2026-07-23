@@ -5,9 +5,15 @@ using Users.Services;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Books.Service;
+
 Env.Load();
+
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<BookService>();
+
 
 var host = Environment.GetEnvironmentVariable("DB_HOST");
 var port = Environment.GetEnvironmentVariable("DB_PORT");
