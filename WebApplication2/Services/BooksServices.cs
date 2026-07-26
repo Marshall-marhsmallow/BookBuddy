@@ -17,8 +17,46 @@ namespace Books.Services
 
         public async Task<Book?> AddBook(int userId, string title, string author, bool read)
         {
-            var newBook = new Book { Title = title, Author = author, Read = read, UserId = userId };
-            _context.Books.Add(newBook);
+            return newBook;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    catch (Exception ex)
+    {
+        // At minimum, log this somewhere so you can debug later
+        Console.WriteLine($"Error adding book: {ex.Message}");
+        return null;
+    }
+    public async Task<Book?> FindBook(string name, int id)
+        {
+            try{
+            var Foundbook = await _context.Books.FirstOrDefaultAsync(b => b.Title == name || b.BookId == id);
+            if (Foundbook != null)
+            {
+                return Foundbook;
+            }
+            return null;}
+            catch (Exception ex)
+            {
+               Console.WriteLine("Failed to connect to database", ex);
+              return null;  
+            }
+        }
+        public async Task<bool> DeleteBook (int id)
+        {
+            var book = await FindBook ("" ,id);
+            if (book != null)
+            {
+                try
+                {
+                    
+                }
+            }
+        }
+}
 
             try
             {
