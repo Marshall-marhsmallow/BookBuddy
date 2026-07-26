@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Books.Services;
+using Quotes.Service;
 
 Env.Load();
 
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<BookService>();
+builder.Services.AddScoped<QuoteService>();
 
 
 var host = Environment.GetEnvironmentVariable("DB_HOST");

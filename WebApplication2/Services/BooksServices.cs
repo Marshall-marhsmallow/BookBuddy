@@ -17,49 +17,16 @@ namespace Books.Services
 
         public async Task<Book?> AddBook(int userId, string title, string author, bool read)
         {
-            return newBook;
-        }
-        else
-        {
-            return null;
-        }
-    }
-    catch (Exception ex)
-    {
-        // At minimum, log this somewhere so you can debug later
-        Console.WriteLine($"Error adding book: {ex.Message}");
-        return null;
-    }
-    public async Task<Book?> FindBook(string name, int id)
-        {
-            try{
-            var Foundbook = await _context.Books.FirstOrDefaultAsync(b => b.Title == name || b.BookId == id);
-            if (Foundbook != null)
+            var newBook = new Book
             {
-                return Foundbook;
-            }
-            return null;}
-            catch (Exception ex)
-            {
-               Console.WriteLine("Failed to connect to database", ex);
-              return null;  
-            }
-        }
-        public async Task<bool> DeleteBook (int id)
-        {
-            var book = await FindBook ("" ,id);
-            if (book != null)
-            {
-                try
-                {
-                    
-                }
-            }
-        }
-}
-
+                UserId = userId,
+                Title = title,
+                Author = author,
+                Read = read
+            };
             try
             {
+                _context.Books.Add(newBook);
                 var res = await _context.SaveChangesAsync();
                 if (res >= 1)
                 {
@@ -69,17 +36,32 @@ namespace Books.Services
                 {
                     return null;
                 }
+
             }
             catch (Exception ex)
             {
-                // At minimum, log this somewhere so you can debug later
-                Console.WriteLine($"Error adding book: {ex.Message}");
+                Console.WriteLine("error adding book " , ex.Message);
                 return null;
             }
-
         }
-
-        public async Task<List<Book>> GetuserBooks(int userId)
+        public async Task<Book?> FindBook(string name, int id)
+        {
+            try
+            {
+                var Foundbook = await _context.Books.FirstOrDefaultAsync(b => b.Title == name || b.BookId == id);
+                if (Foundbook != null)
+                {
+                    return Foundbook;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to connect to database", ex.Message);
+                return null;
+            }
+        }
+        public async Task<List<Book>?> GetuserBooks(int userId)
         {
             try
             {
@@ -87,8 +69,11 @@ namespace Books.Services
                 .Where(b => b.UserId == userId).ToListAsync();
                 return UserBooks;
             }
-            catch (Exception ex){Console.WriteLine("error getting users books");
-            return null;}
+            catch (Exception ex)
+            {
+                Console.WriteLine("error getting users books" ,ex.Message);
+                return null;
+            }
         }
         public async Task<bool> DeleteBook(int Bookid)
         {
@@ -101,14 +86,14 @@ namespace Books.Services
                 {
                     _context.Books.Remove(book);
                     await _context.SaveChangesAsync();
-                    return false;
+                    return true;
                 }
                 return false;
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine("error: " , ex.Message);
+                Console.WriteLine("error: ", ex.Message);
                 return false;
             }
         }

@@ -7,8 +7,8 @@ namespace BooksEndpoints
 {
     public static class BookEndpoints
     {
-        public record AddbookRequest (int userId, string title, string author, bool read);
-        
+        public record AddbookRequest(int userId, string title, string author, bool read);
+
 
         public static void MapBookEndpoints(this WebApplication app)
         {
@@ -19,14 +19,14 @@ namespace BooksEndpoints
 
             app.MapGet("/userbooks", async (HttpContext http, BookService service) =>
             {
-               var userIdClaim = http.User.FindFirst("userId")?.Value;
-               if (userIdClaim == null)
+                var userIdClaim = http.User.FindFirst("userId")?.Value;
+                if (userIdClaim == null)
                 {
                     return Results.Unauthorized();
                 }
                 var userId = int.Parse(userIdClaim);
                 var success = await service.GetuserBooks(userId);
-                 return Results.Ok(success);
+                return Results.Ok(success);
             }).RequireAuthorization();
 
             app.MapDelete("/bookdelete", async (int Bookid, BookService service) =>
@@ -35,13 +35,13 @@ namespace BooksEndpoints
                 {
                     var response = await service.DeleteBook(Bookid);
                     return Results.Ok(response);
-                } 
+                }
                 catch (Exception ex)
                 {
                     return Results.Ok(ex.Message);
                 }
             }).RequireAuthorization();
         }
-        
+
     }
 }
