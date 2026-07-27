@@ -19,12 +19,13 @@ public class TokenService
             ?? throw new InvalidOperationException("JWT_AUDIENCE is not set in .env");
     }
 
-    public string CreateToken(string username, string role = "User")
+    public string CreateToken(int userId, string username, string role = "User")
     {
         var claims = new[]
         {
-            new Claim(ClaimTypes.Name, username),
-            new Claim(ClaimTypes.Role, role)
+        new Claim("userId", userId.ToString()),
+        new Claim(ClaimTypes.Name, username),
+        new Claim(ClaimTypes.Role, role)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));

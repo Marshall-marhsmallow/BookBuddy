@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Books.Services;
 using Quotes.Service;
+using BooksEndpoints;
+using QuotesEndpoints;
 
 Env.Load();
 
@@ -111,8 +113,10 @@ using (var scope = app.Services.CreateScope())
     }
 }
 app.UseCors("AllowAngularApp");
-app.MapUserEndpoints();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapUserEndpoints();
+app.MapBookEndpoints();
+app.MapQuotesEndpoints();
 
 app.Run();

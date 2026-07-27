@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../Services/Apis';
 import { Navbar } from '../navbar/navbar';
+import { Bookslist } from '../bookslist/bookslist';
 
 @Component({
   selector: 'app-user-profile',
-  imports: [Navbar],
+  imports: [Bookslist],
   templateUrl: './user-profile.html',
   styleUrl: './user-profile.css',
 })
