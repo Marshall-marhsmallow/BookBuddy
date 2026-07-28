@@ -1,12 +1,12 @@
 export interface Book {
-    BookId: number;
-    UserId: number;
-    Read: boolean;
-    Title: string;
-    Author: string
+    bookId: number;
+    userId: number;
+    read: boolean;
+    title: string;
+    author: string
 }
 
 export interface AddBookRequest {
-    title: string;
-    author: string;
-    read: boolean;}
+    Title: string;
+    Author: string;
+    Read: boolean;}

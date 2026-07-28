@@ -4,6 +4,7 @@ import { Login } from './login/login';
 import { UserProfile } from './user-profile/user-profile';
 import { AuthGuard } from '../../Services/auth.guard';
 import { Register } from './register/register';
+import { Addbook } from './addbook/addbook';
 export const routes: Routes = [
   { path: 'login', component: Login },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -12,7 +13,8 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     component: UserProfile
   },
-  {path: 'register', component: Register}
+  {path: 'register', component: Register},
+  {path:'newbook', component: Addbook}
 ];
 
 @NgModule({

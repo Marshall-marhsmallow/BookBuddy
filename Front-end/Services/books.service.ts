@@ -13,8 +13,9 @@ export class BookService {
     return this.http.get<Book[]>("http://localhost:5028/userbooks");
   }
 
-  addbook(book: AddBookRequest) {
-    return this.http.post("http://localhost:5028/newbook", book);
+   addbook(book: AddBookRequest): Observable<Response> {
+    return this.http.post<Response>("http://localhost:5028/newbook", book);
+    
   }
 
 }

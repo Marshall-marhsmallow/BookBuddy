@@ -1,1 +1,7 @@
-<p>bookslist works!</p>
+@for (book of books; track book.bookId) {
+  <div class="bookcard">
+    <h3>Title:{{ book.title }}</h3>
+    <p>Author: {{ book.author }}</p>
+    <p>Read: {{ book.read ? 'Yes' : 'No' }}</p>
+  </div>
+}

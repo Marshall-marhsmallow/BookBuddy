@@ -26,6 +26,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }   // ✅ this line was missing
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } 
   ]
 };
