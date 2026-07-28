@@ -22,7 +22,7 @@ namespace UsersEndpoints // Adjusted namespace to match project structure.
                     return Results.Unauthorized();
 
                 var token = tokenService.CreateToken(user.UserId, user.Username);
-                
+
                 return Results.Ok(new { user.Username, token }); // ← must include token here
             });
 
@@ -74,18 +74,13 @@ namespace UsersEndpoints // Adjusted namespace to match project structure.
             }).RequireAuthorization();
 
             // Return the currently logged-in user's own profile info
-            app.MapGet("/user-profile", async (ClaimsPrincipal caller, UserService service) =>
+            app.MapGet("/user-profile", (ClaimsPrincipal caller) =>
             {
                 var username = caller.Identity?.Name;
                 if (username is null)
-                    return Results.Unauthorized();
+                { return Results.Unauthorized(); }
 
-                var user = await service.GetUserByUsername(username);
-                if (user is null)
-                    return Results.NotFound();
-
-                // Return only safe fields — never the password hash
-                return Results.Ok(new { user.Username });
+                return Results.Ok(new { Username = username });
             }).RequireAuthorization();
         }
     }

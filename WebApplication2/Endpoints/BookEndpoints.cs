@@ -12,9 +12,23 @@ namespace BooksEndpoints
 
         public static void MapBookEndpoints(this WebApplication app)
         {
-            app.MapPost("/newbook", async (AddbookRequest req, BookService service) =>
+            app.MapPost("/newbook", async (HttpContext http, AddbookRequest req, BookService service) =>
             {
-                var success = await service.AddBook(req.userId, req.title, req.author, req.read);
+                var userIdClaim = http.User.FindFirst("userId")?.Value;
+                if (userIdClaim == null)
+                {
+                    return Results.Unauthorized();
+                }
+                try
+                {
+                    var userId = int.Parse(userIdClaim);
+                    var success = await service.AddBook(userId, req.title, req.author, req.read);
+                    return Results.Ok(success);
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
             });
 
             app.MapGet("/userbooks", async (HttpContext http, BookService service) =>
