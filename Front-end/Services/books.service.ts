@@ -9,7 +9,7 @@ export class BookService {
 
   private http = inject(HttpClient);
 
-  getuserbooks() {
+  getuserbooks(): Observable<any> {
     return this.http.get<Book[]>("http://localhost:5028/userbooks");
   }
 

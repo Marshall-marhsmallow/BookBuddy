@@ -1,31 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { AuthService } from '../../../Services/Apis';
 import { Navbar } from '../navbar/navbar';
 import { Bookslist } from '../bookslist/bookslist';
 import { user } from '../../../Models/user.models';
-import { JsonPipe } from '@angular/common';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-user-profile',
-  imports: [Bookslist, Navbar,JsonPipe],
+  imports: [Bookslist, Navbar],
   templateUrl: './user-profile.html',
-  styleUrl: './user-profile.css',
+  styleUrls: ['./user-profile.css']
 })
 export class UserProfile implements OnInit {
-
-  loggeduser?: user;
-
-  constructor(private authService: AuthService) { }
-
-  ngOnInit(): void {
-    this.authService.getUserProfile().subscribe({
-      next: (data) => {
-        console.log("data", data);
-        this.loggeduser = data;
-        console.log("loogeduser", this.loggeduser);
-      },
-      error: (err) => {
-        console.error('Failed to load user profile', err);
-      }
-    });
-  }
+  
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  loggedUser = signal<user>({ userId: 0, username: 'null' });
+  
+ngOnInit(): void {
+  this.authService.getUserProfile().subscribe({
+    next: (res: any) =>  {this.loggedUser.set(res)},
+    error: (err) => this.router.navigate(['/login'])
+  });
+}
 }

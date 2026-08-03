@@ -5,16 +5,17 @@ import { UserProfile } from './user-profile/user-profile';
 import { AuthGuard } from '../../Services/auth.guard';
 import { Register } from './register/register';
 import { Addbook } from './addbook/addbook';
+import { Bookslist } from './bookslist/bookslist';
 export const routes: Routes = [
   { path: 'login', component: Login },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'profile',
-    canActivate: [AuthGuard],
     component: UserProfile
   },
   {path: 'register', component: Register},
-  {path:'newbook', component: Addbook}
+  {path:'newbook', component: Addbook},
+  {path:'books', component: Bookslist}
 ];
 
 @NgModule({

@@ -22,7 +22,7 @@ namespace UsersEndpoints // Adjusted namespace to match project structure.
                     return Results.Unauthorized();
 
                 var token = tokenService.CreateToken(user.UserId, user.Username);
-
+                Console.WriteLine(token);
                 return Results.Ok(new { user.Username, token }); // ← must include token here
             });
 

@@ -1,0 +1,8 @@
+<form [formGroup]="newquote" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="Quotetxt"></label>
+        <input id="Quotetxt" formControlName="Quotetxt" type="text">
+    </div>
+    <div><label for="Writer"></label>
+        <input id="Writer" formControlName="Writer" type="text"></div>
+</form>
