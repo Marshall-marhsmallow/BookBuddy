@@ -78,14 +78,15 @@ namespace Quotes.Service
         }
         public async Task<Quote> UpdateQoute(int ID,string Quotetxt, string writer)
         {
-            var qoute = await _context.Quotes.FindAsync(ID);
-            if (qoute == null)
-                qoute.QuoteText = Quotetxt;
-                qoute.Writer = writer;
+            var FoundQoute = await _context.Quotes.FindAsync(ID);
+            if (FoundQoute == null)
+            {return null;}
+                FoundQoute.QuoteText = Quotetxt;
+                FoundQoute.Writer = writer;
             try
             {
                 await _context.SaveChangesAsync();
-                return qoute;
+                return FoundQoute;
             }
             catch(Exception ex)
             {

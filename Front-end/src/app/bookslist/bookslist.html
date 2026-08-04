@@ -1,9 +1,13 @@
 <a href="/newbook">Add Book</a>
 @for(book of books(); track book.bookId) {
-  <div class="bookcard">
-    <p>#{{ book.bookId }}</p>
-    <h3>Title:{{ book.title }}</h3>
-    <p>Author: {{ book.author }}</p>
-    <p>Read: {{ book.read ? 'Yes' : 'No' }}</p>
+<div class="bookcard">
+  <p>#{{ book.bookId }}</p>
+  <h3>Title:{{ book.title }}</h3>
+  <p>Author: {{ book.author }}</p>
+  <p>Read: {{ book.read ? 'Yes' : 'No' }}</p>
+  <div>
+    <button (click)="Editbook(book)">Edit</button>
+    <button (click)="Deletebook(book.bookId)">Delete</button>
   </div>
+</div>
 }

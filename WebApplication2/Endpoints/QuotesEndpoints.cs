@@ -38,7 +38,7 @@ namespace QuotesEndpoints
             }).RequireAuthorization();
 
 
-            app.MapDelete("/quotedelete", async (int ID, QuoteService service) =>
+            app.MapDelete("/quotedelete/{ID}", async (int ID, QuoteService service) =>
             {
                 try
                 {

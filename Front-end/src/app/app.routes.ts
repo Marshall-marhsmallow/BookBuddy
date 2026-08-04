@@ -15,7 +15,8 @@ export const routes: Routes = [
   },
   {path: 'register', component: Register},
   {path:'newbook', component: Addbook},
-  {path:'books', component: Bookslist}
+  {path:'books', component: Bookslist},
+  {path:'newbook/:id/edit', component: Addbook},
 ];
 
 @NgModule({
