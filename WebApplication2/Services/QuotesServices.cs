@@ -76,6 +76,25 @@ namespace Quotes.Service
                 return false;
             }
         }
+        public async Task<Quote> UpdateQoute(int ID,string Quotetxt, string writer)
+        {
+            var qoute = await _context.Quotes.FindAsync(ID);
+            if (qoute == null)
+            {
+                return null;}
+                qoute.QuoteText = Quotetxt;
+                qoute.Writer = writer;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return qoute;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("error", ex.Message);
+                return null;
+            }
+        }
 
     }
 }
