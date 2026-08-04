@@ -1,7 +1,7 @@
 using Books.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
-
+using Records;
 
 
 
@@ -14,7 +14,6 @@ namespace Books.Services
         {
             _context = context;
         }
-        public record UpdateBookReq(int Id, string Title, string Author, bool Read);
         public async Task<Book?> AddBook(int userId, string title, string author, bool read)
         {
             var newBook = new Book
