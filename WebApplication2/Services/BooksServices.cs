@@ -1,7 +1,7 @@
 using Books.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
-
+using Records;
 
 
 
@@ -14,7 +14,6 @@ namespace Books.Services
         {
             _context = context;
         }
-        public record UpdateBookReq(int Id, string Title, string Author, bool Read);
         public async Task<Book?> AddBook(int userId, string title, string author, bool read)
         {
             var newBook = new Book
@@ -100,7 +99,8 @@ namespace Books.Services
         public async Task<Book> UpdateBook(UpdateBookReq req)
         {
             var book = await _context.Books.FindAsync(req.Id);
-            if (book == null) throw new Exception("Book not found");
+            if (book == null) 
+            {return null;}
             try
             {
                 book.Title = req.Title;

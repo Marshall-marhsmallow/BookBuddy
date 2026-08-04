@@ -1,14 +1,13 @@
 using Books.Services;
 using Microsoft.EntityFrameworkCore;
 using Superpower.Model;
-
+using Records;
 
 namespace BooksEndpoints
 {
     public static class BookEndpoints
     {
         public record AddbookRequest(int userId, string title, string author, bool read);
-
 
         public static void MapBookEndpoints(this WebApplication app)
         {
@@ -52,9 +51,27 @@ namespace BooksEndpoints
                 }
                 catch (Exception ex)
                 {
-                    return Results.Ok(ex.Message);
+                    return Results.BadRequest(ex.Message);
                 }
             }).RequireAuthorization();
+            app.MapPut("/editbook", async (UpdateBookReq req, BookService service) =>
+            {
+               try {
+                var response = await service.UpdateBook(req);
+                 if (response != null)
+                    {
+                        return Results.Ok(response);
+                    }
+                    else
+                    {
+                        return Results.NotFound("The Book Was not Found");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+            });
         }
 
     }
