@@ -83,6 +83,25 @@ namespace QuotesEndpoints
                     return Results.BadRequest(ex.Message);
                 }
             }).RequireAuthorization();
+            app.MapPut("/updatequote", async (int ID, string Qoutetxtm, string Writer,QuoteService service) =>
+            {
+                try
+                {
+                    var success = await service.UpdateQoute(ID, Qoutetxtm, Writer);
+                    if (success != null)
+                    {
+                        return Results.Ok("Quote updated successfully");
+                    }
+                    else
+                    {
+                        return Results.NotFound("Failed to update quote");
+                    }
+                }
+                    catch (Exception ex)
+                    {
+                        return Results.BadRequest(ex.Message);
+                    }
+            }).RequireAuthorization();
         }
     }
 }

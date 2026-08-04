@@ -14,7 +14,7 @@ namespace Books.Services
         {
             _context = context;
         }
-
+        public record UpdateBookReq(int Id, string Title, string Author, bool Read);
         public async Task<Book?> AddBook(int userId, string title, string author, bool read)
         {
             var newBook = new Book
@@ -95,6 +95,24 @@ namespace Books.Services
             {
                 Console.WriteLine("error: ", ex.Message);
                 return false;
+            }
+        }
+        public async Task<Book> UpdateBook(UpdateBookReq req)
+        {
+            var book = await _context.Books.FindAsync(req.Id);
+            if (book == null) throw new Exception("Book not found");
+            try
+            {
+                book.Title = req.Title;
+                book.Author = req.Author;
+                book.Read = req.Read;
+                await _context.SaveChangesAsync();
+                return book;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error", ex.Message);
+                throw new Exception("Error updating book");
             }
         }
 

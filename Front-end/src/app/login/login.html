@@ -1,5 +1,16 @@
-<form (submit)="onSubmit()">
-    <input type="text" [(ngModel)]="username" name="username" placeholder="Username">
-    <input type="password" [(ngModel)]="password" name="password" placeholder="Password">
-    <button type="submit">Login</button>
-</form>
+<div class="login-container">
+    <h1>Welcome back</h1>
+    <p>Please enter your details to sign in.</p>
+    <form (submit)="onSubmit()">
+        <div class="input-group">
+            <label for="username">username</label>
+            <input type="text" [(ngModel)]="username" name="username" placeholder="Username">
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" [(ngModel)]="password" name="password" placeholder="Password">
+        </div>
+        <button class="btn-primary" type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="/register">Sign up</a></p>
+</div>

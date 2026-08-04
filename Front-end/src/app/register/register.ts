@@ -1,5 +1,5 @@
 // register.ts
-import { Component } from '@angular/core';
+import { Component,signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../Services/Apis';
@@ -14,7 +14,7 @@ import { switchMap } from 'rxjs';
 export class Register {
   username = '';
   password = '';
-  message = '';
+  message = signal<string | null>(null);
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -26,7 +26,7 @@ export class Register {
         this.router.navigate(['/profile']);
       },
       error: () => {
-        this.message = 'Registration failed. Please try again later.';
+        this.message.set( 'Registration failed. Please try again later.');
       }
     });
   }
