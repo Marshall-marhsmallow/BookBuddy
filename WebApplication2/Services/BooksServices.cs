@@ -100,7 +100,9 @@ namespace Books.Services
         public async Task<Book> UpdateBook(UpdateBookReq req)
         {
             var book = await _context.Books.FindAsync(req.Id);
-            if (book == null) throw new Exception("Book not found");
+            if (book == null) {
+                return null;
+            }
             try
             {
                 book.Title = req.Title;

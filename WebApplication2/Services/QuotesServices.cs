@@ -80,8 +80,6 @@ namespace Quotes.Service
         {
             var qoute = await _context.Quotes.FindAsync(ID);
             if (qoute == null)
-            {
-                return null;}
                 qoute.QuoteText = Quotetxt;
                 qoute.Writer = writer;
             try
@@ -92,7 +90,7 @@ namespace Quotes.Service
             catch(Exception ex)
             {
                 Console.WriteLine("error", ex.Message);
-                return null;
+                throw;
             }
         }
 
