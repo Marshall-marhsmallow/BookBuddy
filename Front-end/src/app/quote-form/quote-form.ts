@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { QuotesService } from '../../../Services/quotes.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, ReactiveFormsModule, Validators, FormControl } from '@angular/forms';
-import { AddQuoteRequest } from '../../../Models/quote.model';
+import { AddQuoteRequest, quote } from '../../../Models/quote.model';
 @Component({
   selector: 'app-quote-form',
   imports: [ReactiveFormsModule],
@@ -11,13 +11,23 @@ import { AddQuoteRequest } from '../../../Models/quote.model';
 })
 export class QuoteForm {
   private qouteService = inject(QuotesService);
-  
+  private route = inject(ActivatedRoute)
   private router = inject(Router);
 
+  isEditMode = signal(false);
+  message = signal<string | null>(null);
+  quoteId : number | null = null;
+  private passedquote : quote | undefined;
+
+  constructor (){
+    const nav = this.router.currentNavigation();
+    this.passedquote = nav?.extras?.state?.['quote'] as quote | undefined;
+  }
   newquote = new FormGroup({
     Quotetxt: new FormControl('', [Validators.required]),
     Writer: new FormControl('', [Validators.required])
   });
+
   hasError(field: string, error:string){
     const control = this.newquote.get(field);
     return !!control?.touched && control.hasError(error);

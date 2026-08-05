@@ -19,4 +19,7 @@ export class QuotesService {
         return this.http.post(`${this.apiUrl}/newquote`, quote);
 
     }
+    EditQuote(){
+        
+    }
 }
