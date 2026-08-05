@@ -3,17 +3,17 @@
         @if (hasError('Title','required')) {
             <p class="error">Title is required</p>}
         <label for="Title">Title</label>
-        <input id="Title" type="text" formControlName="Title">
+        <input id="Title" type="text" formControlName="title">
     </div>
     <div>
         @if (hasError('Author','required')) {
             <p class="error">Author is required</p>}
         <label for="Author">Author:</label>
-        <input id="Author" type="text" formControlName="Author">
+        <input id="Author" type="text" formControlName="author">
     </div>
     <div>
         <label for="Read">Read</label>
-        <input id="Read" type="checkbox" formControlName="Read">
+        <input id="Read" type="checkbox" formControlName="read">
     </div>
     <button type="submit" [disabled]="newbook.invalid">Submit</button>
 </form>

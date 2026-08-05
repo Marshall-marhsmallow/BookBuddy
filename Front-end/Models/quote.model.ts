@@ -11,3 +11,9 @@ export interface AddQuoteRequest {
     Quotetxt: string;
     writer: string;
 }
+
+export interface UpdateQuotereq{
+    Id:number;
+    QuoteText:string;
+    Writer:string;
+}

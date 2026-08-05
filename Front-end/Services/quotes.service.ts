@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { quote, AddQuoteRequest } from '../Models/quote.model';
+import { quote, AddQuoteRequest, UpdateQuotereq } from '../Models/quote.model';
 
 
 
@@ -18,5 +18,8 @@ export class QuotesService {
     addQuote(quote: AddQuoteRequest) {
         return this.http.post(`${this.apiUrl}/newquote`, quote);
 
+    }
+    EditQuote(quote : UpdateQuotereq):Observable<any>{
+        return this.http.put(`${this.apiUrl}/updatequote`, quote);
     }
 }

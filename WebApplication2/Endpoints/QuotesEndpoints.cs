@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Quotes.Service;
+using Records;
 
 namespace QuotesEndpoints
 {
@@ -38,7 +39,7 @@ namespace QuotesEndpoints
             }).RequireAuthorization();
 
 
-            app.MapDelete("/quotedelete", async (int ID, QuoteService service) =>
+            app.MapDelete("/quotedelete/{ID}", async (int ID, QuoteService service) =>
             {
                 try
                 {
@@ -83,11 +84,11 @@ namespace QuotesEndpoints
                     return Results.BadRequest(ex.Message);
                 }
             }).RequireAuthorization();
-            app.MapPut("/updatequote", async (int ID, string Qoutetxtm, string Writer,QuoteService service) =>
+            app.MapPut("/updatequote", async (UpdateQuoteReq req,QuoteService service) =>
             {
                 try
                 {
-                    var success = await service.UpdateQoute(ID, Qoutetxtm, Writer);
+                    var success = await service.UpdateQoute(req);
                     if (success != null)
                     {
                         return Results.Ok("Quote updated successfully");

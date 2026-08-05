@@ -2,6 +2,7 @@ using Quotes.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using Records;
 
 namespace Quotes.Service
 {
@@ -76,23 +77,22 @@ namespace Quotes.Service
                 return false;
             }
         }
-        public async Task<Quote> UpdateQoute(int ID,string Quotetxt, string writer)
+        public async Task<Quote> UpdateQoute(UpdateQuoteReq req)
         {
-            var qoute = await _context.Quotes.FindAsync(ID);
-            if (qoute == null)
-            {
-                return null;}
-                qoute.QuoteText = Quotetxt;
-                qoute.Writer = writer;
+            var FoundQoute = await _context.Quotes.FindAsync(req.Id);
+            if (FoundQoute == null)
+            {return null;}
+                FoundQoute.QuoteText = req.QuoteText;
+                FoundQoute.Writer = req.Writer;
             try
             {
                 await _context.SaveChangesAsync();
-                return qoute;
+                return FoundQoute;
             }
             catch(Exception ex)
             {
                 Console.WriteLine("error", ex.Message);
-                return null;
+                throw;
             }
         }
 

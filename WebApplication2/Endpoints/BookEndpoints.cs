@@ -42,7 +42,7 @@ namespace BooksEndpoints
                 return Results.Ok(success);
             }).RequireAuthorization();
 
-            app.MapDelete("/bookdelete", async (int Bookid, BookService service) =>
+            app.MapDelete("/deletebook/{Bookid}", async (int Bookid, BookService service) =>
             {
                 try
                 {

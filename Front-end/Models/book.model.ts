@@ -10,3 +10,10 @@ export interface AddBookRequest {
     Title: string;
     Author: string;
     Read: boolean;}
+
+export interface UpdateBookReq{
+  Id: number,
+  Title: string,
+  Author: string,
+  Read: boolean;
+}
