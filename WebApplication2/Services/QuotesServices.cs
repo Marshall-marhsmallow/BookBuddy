@@ -30,13 +30,13 @@ namespace Quotes.Service
             }
 
         }
-        public async Task<Quote?> AddnewQuote(int userID, string Quotetxt, string writer)
+        public async Task<Quote?> AddnewQuote(int ID, AddQuotereq req)
         {
             var newQuote = new Quote
             {
-                UserId = userID,
-                QuoteText = Quotetxt,
-                Writer = writer
+                UserId = ID,
+                QuoteText = req.QuoteText,
+                Writer = req.Writer
             };
             try
             {
@@ -81,15 +81,15 @@ namespace Quotes.Service
         {
             var FoundQoute = await _context.Quotes.FindAsync(req.Id);
             if (FoundQoute == null)
-            {return null;}
-                FoundQoute.QuoteText = req.QuoteText;
-                FoundQoute.Writer = req.Writer;
+            { return null; }
+            FoundQoute.QuoteText = req.QuoteText;
+            FoundQoute.Writer = req.Writer;
             try
             {
                 await _context.SaveChangesAsync();
                 return FoundQoute;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error", ex.Message);
                 throw;

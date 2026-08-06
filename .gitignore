@@ -1,6 +1,6 @@
 /.idea
 /WebApplication2/.env
 /WebApplication2/[Oo]bj
+/WebApplication2/bin
 /.vscode
 /.vs
-/CLAUDE.md

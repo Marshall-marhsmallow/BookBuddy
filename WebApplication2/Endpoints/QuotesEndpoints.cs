@@ -8,10 +8,10 @@ namespace QuotesEndpoints
 {
     public static class QuotesEndpoints
     {
-        public record Addquoterequest(int userID, string Quotetxt, string writer);
+        public record Addquoterequest(AddQuotereq req);
         public static void MapQuotesEndpoints(this WebApplication app)
         {
-            app.MapPost("/newquote", async (HttpContext http, Addquoterequest req, QuoteService service) =>
+            app.MapPost("/newquote", async (HttpContext http, AddQuotereq req, QuoteService service) =>
             {
                 var userIdClaim = http.User.FindFirst("userId")?.Value;
                 if (userIdClaim == null)
@@ -21,7 +21,7 @@ namespace QuotesEndpoints
                 var userid = int.Parse(userIdClaim);
                 try
                 {
-                    var success = await service.AddnewQuote(userid, req.Quotetxt, req.writer);
+                    var success = await service.AddnewQuote(userid, req);
                     if (success != null)
                     {
                         return Results.Ok(success);
@@ -46,7 +46,7 @@ namespace QuotesEndpoints
                     var success = await service.Deleteqoute(ID);
                     if (success == true)
                     {
-                        return Results.Ok("Quote deleted successfully");
+                        return Results.Ok(success);
                     }
                     else
                     {
