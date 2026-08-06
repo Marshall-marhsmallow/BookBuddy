@@ -1,14 +1,14 @@
 export interface quote{
-    QuoteId: number;
-    UserId: number;
-    QuoteText: string;
-    Writer: string;
-    Date: Date;
+    quoteId: number;
+    userId: number;
+    quoteText: string;
+    writer: string;
+    date: Date;
 }
 
 
 export interface AddQuoteRequest {
-    Quotetxt: string;
+    QuoteText: string;
     writer: string;
 }
 

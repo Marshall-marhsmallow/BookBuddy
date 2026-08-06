@@ -22,10 +22,11 @@ export class QuoteForm {
   constructor() {
     const nav = this.router.currentNavigation();
     this.passedquote = nav?.extras?.state?.['quote'] as quote | undefined;
+    console.log(this.passedquote);
   }
   newquote = new FormGroup({
-    Quotetxt: new FormControl('', [Validators.required]),
-    Writer: new FormControl('', [Validators.required])
+    quoteText: new FormControl('', [Validators.required]),
+    writer: new FormControl('', [Validators.required])
   });
 
   hasError(field: string, error: string) {
@@ -37,7 +38,7 @@ export class QuoteForm {
     if (this.passedquote) {
       this.isEditMode.set(true);
       this.newquote.patchValue(this.passedquote);
-      this.quoteId = this.passedquote.QuoteId;
+      this.quoteId = this.passedquote.quoteId;
     }
   }
 

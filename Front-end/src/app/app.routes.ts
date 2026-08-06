@@ -9,17 +9,23 @@ import { Bookslist } from './bookslist/bookslist';
 import { Quotes } from './quotes/quotes';
 import { QuoteForm } from './quote-form/quote-form';
 export const routes: Routes = [
-  { path: 'login', component: Login },
+  { path: 'login', component: Login,
+    canActivate: [AuthGuard],
+    data: {requiresAuth :false}
+   },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'profile',
-    component: UserProfile
+    component: UserProfile,
+    canActivate: [AuthGuard],
+    data: {requiresAuth: true}
   },
-  {path: 'register', component: Register},
+  {path: 'register', component: Register,
+    canActivate: [AuthGuard],
+    data: {requiresAuth: false}
+  },
   {path:'newbook', component: Addbook},
-  {path:'books', component: Bookslist},
   {path:'newbook/:id/edit', component: Addbook},
-  {path:'quotes',component:Quotes},
   {path:'newquote', component: QuoteForm},
   {path:'newquote/:id/edit', component: QuoteForm}
 ];

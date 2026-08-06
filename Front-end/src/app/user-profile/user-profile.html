@@ -1,5 +1,18 @@
-<div>
-  <h1>Welcome!, {{ loggedUser().username }}</h1>
+<div class="banner">
+  <h2>Welcome!, {{ loggedUser().username }}</h2>
+  <button class="logout-btn" (click)="logout()">Logout</button>
 </div>
-<app-navbar></app-navbar>
-<app-bookslist></app-bookslist>
+<div class="view-switcher">
+  <button [class.active]="activeView() === 'books'" (click)="setView('books')">Books</button>
+  <button [class.active]="activeView() === 'quotes'" (click)="setView('quotes')">Quotes</button>
+</div>
+<div class="content-sec">
+  @switch(activeView()){
+    @case ('books'){
+      <app-bookslist/>
+    }
+    @case ('quotes'){
+      <app-quotes/>
+    }
+  }
+</div>

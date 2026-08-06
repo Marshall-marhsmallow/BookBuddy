@@ -28,13 +28,19 @@ export class Bookslist {
         if (Response == true) {
           //handle the response by shwoing a notification and 
           //refreshing the fetch?
+          this.bookService.getuserbooks().subscribe({
+            next: (data) => {
+              this.books.set(data);
+            },
+            error: (err) => console.error('Failed to fetch books:', err),
+          });
         }
       },
       error: (err) => console.error('Failed to delete', err),
 
     });
   }
-  Editbook(book : Book) : void{
-    this.router.navigate(['/newbook',book.bookId, 'edit'],{state:{book}});
+  Editbook(book: Book): void {
+    this.router.navigate(['/newbook', book.bookId, 'edit'], { state: { book } });
   }
 }

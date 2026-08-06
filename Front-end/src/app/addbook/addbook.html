@@ -1,19 +1,19 @@
-<form [formGroup]="newbook" (ngSubmit)="onSubmit()">
-    <div>
+<form class="form" [formGroup]="newbook" (ngSubmit)="onSubmit()">
+    <div class="form-group">
         @if (hasError('Title','required')) {
             <p class="error">Title is required</p>}
-        <label for="Title">Title</label>
-        <input id="Title" type="text" formControlName="title">
+        <label class="label" for="Title">Title</label>
+        <input class="input" id="Title" type="text" formControlName="title">
     </div>
-    <div>
+    <div class="form-group">
         @if (hasError('Author','required')) {
             <p class="error">Author is required</p>}
-        <label for="Author">Author:</label>
-        <input id="Author" type="text" formControlName="author">
+        <label class="label" for="Author">Author:</label>
+        <input class="input" id="Author" type="text" formControlName="author">
     </div>
-    <div>
-        <label for="Read">Read</label>
-        <input id="Read" type="checkbox" formControlName="read">
+    <div class="form-group">
+        <label class="label" for="Read">Read</label>
+        <input class="input" id="Read" type="checkbox" formControlName="read">
     </div>
-    <button type="submit" [disabled]="newbook.invalid">Submit</button>
+    <button class="btn-primary" type="submit" [disabled]="newbook.invalid">Submit</button>
 </form>
